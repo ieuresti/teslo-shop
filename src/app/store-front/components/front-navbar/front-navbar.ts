@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
 	selector: 'app-front-navbar',
-	imports: [],
+	imports: [RouterLink, RouterLinkActive],
 	templateUrl: './front-navbar.html',
 	styleUrl: './front-navbar.css',
 })
