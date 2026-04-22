@@ -4,7 +4,7 @@
     </figure>
     <div class="card-body">
         <h2 class="card-title font-montserrat text-lg">
-            {{ product().title }}
+            <a class="cursor-pointer hover:underline" [routerLink]="['/product', product().slug]">{{ product().title }}</a>
             <div class="badge badge-secondary">{{ product().price | currency }}</div>
         </h2>
         <p>{{ product().description | slice: 0:70 }}...</p>
