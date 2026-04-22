@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+/* Estilos para el carousel */
+.swiper {
+  width: 100%;
+  height: 500px;
+}
+
+/* Estilos para controles de Swiper */
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.swiper-pagination-bullet {
+  background: white !important;
+  opacity: 0.5 !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+}

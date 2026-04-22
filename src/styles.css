@@ -5,6 +5,11 @@
     themes: light --default, dark --prefersdark, night;
 }
 
+/* Swiper styles */
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/montserrat-alternates/MontserratAlternates-Medium.ttf') format('truetype');
