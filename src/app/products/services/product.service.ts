@@ -13,7 +13,7 @@ interface Options {
 @Injectable({ providedIn: 'root' })
 export class ProductService {
     private http = inject(HttpClient);
-    baseUrl = environment.baseUrl
+    baseUrl = environment.baseUrl;
 
     constructor() { }
 
