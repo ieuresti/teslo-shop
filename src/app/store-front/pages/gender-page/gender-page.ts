@@ -16,6 +16,7 @@ export class GenderPage {
 	productService = inject(ProductService);
 
 	// Convertimos el observable de parámetros de ruta en una señal reactiva para obtener el género actual
+	// Usamos una señal porque queremos que la UI se actualice automáticamente cada vez que cambie el género en la URL
 	gender = toSignal(this.activatedRoute.params.pipe(
 		// Con el operador map extraemos el género de los parámetros de la ruta
 		map(({ gender }) => gender)
