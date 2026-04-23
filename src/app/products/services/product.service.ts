@@ -17,6 +17,7 @@ export class ProductService {
 
     // Cache para almacenar los productos obtenidos
     private productsCache = new Map<string, ProductsResponse>();
+    private productCache = new Map<string, Product>();
 
     constructor() { }
 
@@ -45,6 +46,12 @@ export class ProductService {
     }
 
     getProductByIdSlug(term: string): Observable<Product> {
-        return this.http.get<Product>(`${this.baseUrl}/products/${term}`);
+        const key = `${term}`;
+        if (this.productCache.has(key)) {
+            return of(this.productCache.get(key)!);
+        }
+        return this.http.get<Product>(`${this.baseUrl}/products/${term}`).pipe(
+            tap(resp => this.productCache.set(key, resp))
+        );
     }
 }
