@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import { AuthResponse } from '../interfaces/auth-response.interface';
 import { LoginCredentials } from '../interfaces/login-credentials.interface';
@@ -35,7 +35,7 @@ export class AuthService {
 
     token = computed(() => this._token());
 
-    login(credentials: LoginCredentials): Observable<AuthResponse> {
+    login(credentials: LoginCredentials): Observable<boolean> {
         return this.http.post<AuthResponse>(`${this.baseUrl}/auth/login`, credentials).pipe(
             tap(resp => {
                 this._authStatus.set('authenticated');
@@ -43,6 +43,16 @@ export class AuthService {
                 this._token.set(resp.token);
 
                 localStorage.setItem('token', resp.token);
+            }),
+            // Si el login es exitoso, retornamos true
+            map(() => true),
+            // Si el login falla, retornamos false
+            catchError((error: any) => {
+                // Y limpiamos el estatus, el usuario y el token
+                this._authStatus.set('not-authenticated');
+                this._user.set(null);
+                this._token.set(null);
+                return of(false);
             })
         );
     }
