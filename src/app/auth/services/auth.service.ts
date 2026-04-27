@@ -6,6 +6,7 @@ import { User } from '../interfaces/user.interface';
 import { AuthResponse } from '../interfaces/auth-response.interface';
 import { LoginCredentials } from '../interfaces/login-credentials.interface';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { Register } from '../interfaces/register.interface';
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 
@@ -50,6 +51,16 @@ export class AuthService {
             // Si el login es exitoso, retornamos true
             map(() => true),
             // Si el login falla, retornamos false y limpiamos el estatus, el usuario y el token
+            catchError((error: any) => this.handleAuthError(error))
+        );
+    }
+
+    register(credentials: Register): Observable<boolean> {
+        return this.http.post<AuthResponse>(`${this.baseUrl}/auth/register`, credentials).pipe(
+            tap(resp => this.handleAuthSuccess(resp)),
+            // Si el registro es exitoso, retornamos true
+            map(() => true),
+            // Si el registro falla, retornamos false y limpiamos el estatus, el usuario y el token
             catchError((error: any) => this.handleAuthError(error))
         );
     }
