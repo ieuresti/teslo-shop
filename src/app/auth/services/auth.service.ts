@@ -44,6 +44,8 @@ export class AuthService {
     user = computed(() => this._user());
 
     token = computed(() => this._token());
+    // Computed para verificar si el usuario tiene el rol de admin, basado en los roles del usuario almacenados en el estado
+    isAdmin = computed(() => this._user()?.roles.includes('admin') ?? false)
 
     login(credentials: LoginCredentials): Observable<boolean> {
         return this.http.post<AuthResponse>(`${this.baseUrl}/auth/login`, credentials).pipe(

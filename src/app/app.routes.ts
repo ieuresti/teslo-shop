@@ -1,18 +1,19 @@
 import { Routes } from '@angular/router';
 import { NotAuthenticatedGuard } from './auth/guards/not-authenticated.guard';
+import { IsAdminGuard } from './auth/guards/is-admin.guard';
 
 export const routes: Routes = [
     {
         path: 'auth',
         loadChildren: () => import('./auth/auth.routes').then(m => m.authRoutes),
-        // El guard `NotAuthenticatedGuard` se encarga de proteger las rutas de autenticación, permitiendo el acceso solo a usuarios no autenticados
+        // * Si un guard retorna true, la navegación continúa hacia la ruta solicitada.
+        // * Si un guard retorna false, la navegación se cancela y el usuario permanece en su ubicación actual.
         canMatch: [NotAuthenticatedGuard]
     },
     {
         path: 'admin',
         loadChildren: () => import('./admin-dashboard/admin-dashboard.routes').then(m => m.adminDashboardRoutes),
-        // TO DO Guard
-        //canMatch: []
+        canMatch: [IsAdminGuard]
     },
     {
         path: '',
