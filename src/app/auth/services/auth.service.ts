@@ -16,7 +16,7 @@ export class AuthService {
 
     private _authStatus = signal<AuthStatus>('checking');
     private _user = signal<User | null>(null);
-    private _token = signal<string | null>(null);
+    private _token = signal<string | null>(localStorage.getItem('token'));
 
     // Recurso para verificar el estado de autenticación al iniciar la aplicación
     checkStatusResource = rxResource({
@@ -62,9 +62,9 @@ export class AuthService {
         }
 
         return this.http.get<AuthResponse>(`${this.baseUrl}/auth/check-status`, {
-            headers: {
+            /*headers: {
                 Authorization: `Bearer ${token}`
-            }
+            }*/
         }).pipe(
             tap(resp => this.handleAuthSuccess(resp)),
             map(() => true),
