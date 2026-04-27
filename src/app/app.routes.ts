@@ -9,6 +9,12 @@ export const routes: Routes = [
         canMatch: [NotAuthenticatedGuard]
     },
     {
+        path: 'admin',
+        loadChildren: () => import('./admin-dashboard/admin-dashboard.routes').then(m => m.adminDashboardRoutes),
+        // TO DO Guard
+        //canMatch: []
+    },
+    {
         path: '',
         loadChildren: () => import('./store-front/store-front.routes').then(m => m.storeFrontRoutes)
     }
