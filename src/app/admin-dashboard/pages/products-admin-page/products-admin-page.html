@@ -1,1 +1,26 @@
-<p>products-admin-page works!</p>,
+<h1 class="text-2xl font-bold">Listado de productos</h1>
+
+<h3 class="text-lg">Total de productos
+    <span class="text-accent">{{ productsResource.value()?.count }}</span>
+</h3>
+
+<div class="divider"></div>
+
+<div class="flex gap-2 items-center h-20">
+    <app-paginator 
+        [pages]="productsResource.value()?.pages ?? 0" 
+        [currentPage]="paginatorService.currentPage()">
+    </app-paginator>
+
+    <select class="select select-bordered w-32"
+        (change)="productsPerPages.set(+selectPerPage.value)"
+        #selectPerPage>
+        <!-- El operador + antes del value convierte el string en un número -->
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+    </select>
+</div>
+
+<app-product-table [products]="productsResource.value()?.products ?? []"></app-product-table>
