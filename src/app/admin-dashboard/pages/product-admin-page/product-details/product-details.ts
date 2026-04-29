@@ -6,6 +6,7 @@ import { FormUtils } from '../../../../utils/form-utils';
 import { FormErrorLabel } from "../../../../shared/components/form-error-label/form-error-label";
 import { ProductService } from '../../../../products/services/product.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
 	selector: 'app-product-details',
@@ -73,23 +74,43 @@ export class ProductDetails implements OnInit {
 		if (this.product().id == 'new') {
 			this.productService.createProduct(productLike).subscribe({
 				next: (resp) => {
-					console.log(resp);
-					// TO DO - Mostrar un mensaje de exito o redireccion
-					console.log('Producto creado!');
-					this.router.navigate(['/admin/product/', resp.id]);
+					Swal.fire({
+						title: 'Éxito',
+						text: 'Producto ' + resp.title + ' creado correctamente',
+						icon: 'success',
+						showCloseButton: true,
+					}).then(() => {
+						this.router.navigate(['/admin/product/', resp.id]);
+					});
 				},
 				error: (err) => {
-					console.error(err);
+					Swal.fire({
+						title: 'Error',
+						text: 'Hubo un error al crear el producto',
+						icon: 'error',
+						showCloseButton: true,
+					});
 				}
 			});
 		} else {
 			this.productService.updateProduct(this.product().id, productLike).subscribe({
 				next: (resp) => {
-					console.log('Producto actualizado!');
-					// TO DO - Mostrar un mensaje de exito o redireccion
+					Swal.fire({
+						title: 'Éxito',
+						text: 'Producto ' + resp.title + ' actualizado correctamente',
+						icon: 'success',
+						showCloseButton: true,
+					}).then(() => {
+						this.router.navigate(['/admin/product/', resp.id]);
+					});
 				},
 				error: (err) => {
-					console.error(err);
+					Swal.fire({
+						title: 'Error',
+						text: 'Hubo un error al actualizar el producto',
+						icon: 'error',
+						showCloseButton: true,
+					});
 				}
 			});
 		}

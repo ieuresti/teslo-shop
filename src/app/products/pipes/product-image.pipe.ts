@@ -6,8 +6,12 @@ import { environment } from '../../../environments/environment';
 })
 
 export class ProductImagePipe implements PipeTransform {
-    transform(value: string | string[]): string {
+    transform(value: null | string | string[]): string {
         const baseUrl = environment.baseUrl;
+
+        if (value == null) {
+            return '/assets/images/no-image.jpg';
+        }
 
         if (typeof value == 'string') {
             // Si el valor es un string, se asume que es la URL de la imagen y se devuelve directamente
