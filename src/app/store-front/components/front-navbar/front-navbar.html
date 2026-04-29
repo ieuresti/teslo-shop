@@ -26,6 +26,10 @@
     </div>
 
     <div class="navbar-end gap-4">
+        @if (authService.isAdmin()) {
+        <a routerLink="/admin" class="btn btn-ghost">Admin menú</a>
+        }
+
         @if (authService.authStatus() == 'authenticated') {
         <span class="hidden md:inline-flex">Hola, {{ authService.user()?.fullName }}</span>
 

@@ -4,6 +4,7 @@ import { ProductCarousel } from "../../../../products/components/product-carouse
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../../utils/form-utils';
 import { FormErrorLabel } from "../../../../shared/components/form-error-label/form-error-label";
+import { ProductService } from '../../../../products/services/product.service';
 
 @Component({
 	selector: 'app-product-details',
@@ -14,6 +15,8 @@ import { FormErrorLabel } from "../../../../shared/components/form-error-label/f
 export class ProductDetails implements OnInit {
 	product = input.required<Product>();
 	fb = inject(FormBuilder);
+	productService = inject(ProductService);
+	sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
 	productForm: FormGroup = this.fb.group({
 		title: ['', Validators.required],
@@ -50,7 +53,29 @@ export class ProductDetails implements OnInit {
 	}
 
 	onSubmit() {
-		const isValid = this.productForm.valid;
-		console.log(this.productForm.value, { isValid });
+		const isFormValid = this.productForm.valid;
+		this.productForm.markAllAsTouched();
+		if (!isFormValid) {
+			return;
+		}
+
+		const formValue = this.productForm.value;
+		// Creamos un objeto productLike a partir de los valores del formulario
+		const productLike: Partial<Product> = {
+			// Usamos el operador spread para copiar todas las propiedades del formulario al nuevo objeto
+			...formValue,
+			// Convertimos el string de tags en un array de strings, separando por comas y eliminando espacios en blanco
+			tags: formValue.tags.split(',').map((tag: string) => tag.trim())
+		};
+
+		this.productService.updateProduct(this.product().id, productLike).subscribe({
+			next: (resp) => {
+				console.log(resp);
+				// TO DO - Mostrar un mensaje de exito o redireccion
+			},
+			error: (err) => {
+				console.error(err);
+			}
+		});
 	}
 }

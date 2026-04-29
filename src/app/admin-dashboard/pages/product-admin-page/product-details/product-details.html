@@ -59,7 +59,7 @@
 
         <!-- Sizes -->
         <div class="grid grid-cols-6 gap-2">
-            @for (size of product().sizes; track size) {
+            @for (size of sizes; track size) {
             <button class="btn btn-sm" type="button" (click)="onSizeClicked(size)"
                 [class.btn-secondary]="productForm.value.sizes?.includes(size)">{{ size }}</button>
             }
