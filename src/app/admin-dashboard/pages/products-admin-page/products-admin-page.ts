@@ -4,10 +4,11 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { ProductService } from '../../../products/services/product.service';
 import { PaginatorService } from '../../../shared/components/paginator/paginator.service';
 import { Paginator } from "../../../shared/components/paginator/paginator";
+import { RouterLink } from "@angular/router";
 
 @Component({
 	selector: 'app-products-admin-page',
-	imports: [ProductTable, Paginator],
+	imports: [ProductTable, Paginator, RouterLink],
 	templateUrl: './products-admin-page.html',
 	styleUrl: './products-admin-page.css'
 })

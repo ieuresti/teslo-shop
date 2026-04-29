@@ -16,9 +16,6 @@ export class ProductTable {
 
 	redirectToAction(productId: string, action: string) {
 		switch (action) {
-			case 'view':
-				this.router.navigate(['/admin/product', productId]);
-				break;
 			case 'edit':
 				this.router.navigate(['/admin/product', productId]);
 				break;

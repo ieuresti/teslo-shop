@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormUtils } from '../../../../utils/form-utils';
 import { FormErrorLabel } from "../../../../shared/components/form-error-label/form-error-label";
 import { ProductService } from '../../../../products/services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-product-details',
@@ -15,6 +16,7 @@ import { ProductService } from '../../../../products/services/product.service';
 export class ProductDetails implements OnInit {
 	product = input.required<Product>();
 	fb = inject(FormBuilder);
+	router = inject(Router);
 	productService = inject(ProductService);
 	sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
@@ -68,14 +70,28 @@ export class ProductDetails implements OnInit {
 			tags: formValue.tags.split(',').map((tag: string) => tag.trim())
 		};
 
-		this.productService.updateProduct(this.product().id, productLike).subscribe({
-			next: (resp) => {
-				console.log(resp);
-				// TO DO - Mostrar un mensaje de exito o redireccion
-			},
-			error: (err) => {
-				console.error(err);
-			}
-		});
+		if (this.product().id == 'new') {
+			this.productService.createProduct(productLike).subscribe({
+				next: (resp) => {
+					console.log(resp);
+					// TO DO - Mostrar un mensaje de exito o redireccion
+					console.log('Producto creado!');
+					this.router.navigate(['/admin/product/', resp.id]);
+				},
+				error: (err) => {
+					console.error(err);
+				}
+			});
+		} else {
+			this.productService.updateProduct(this.product().id, productLike).subscribe({
+				next: (resp) => {
+					console.log('Producto actualizado!');
+					// TO DO - Mostrar un mensaje de exito o redireccion
+				},
+				error: (err) => {
+					console.error(err);
+				}
+			});
+		}
 	}
 }
