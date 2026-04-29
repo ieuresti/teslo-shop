@@ -3,10 +3,11 @@ import { Product } from '../../../../products/interfaces/product.interface';
 import { ProductCarousel } from "../../../../products/components/product-carousel/product-carousel";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../../utils/form-utils';
+import { FormErrorLabel } from "../../../../shared/components/form-error-label/form-error-label";
 
 @Component({
 	selector: 'app-product-details',
-	imports: [ProductCarousel, ReactiveFormsModule],
+	imports: [ProductCarousel, ReactiveFormsModule, FormErrorLabel],
 	templateUrl: './product-details.html',
 	styleUrl: './product-details.css'
 })
@@ -49,6 +50,7 @@ export class ProductDetails implements OnInit {
 	}
 
 	onSubmit() {
-		console.log(this.productForm.value)
+		const isValid = this.productForm.valid;
+		console.log(this.productForm.value, { isValid });
 	}
 }
