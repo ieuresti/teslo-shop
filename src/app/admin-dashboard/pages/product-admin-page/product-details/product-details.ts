@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { Product } from '../../../../products/interfaces/product.interface';
 import { ProductCarousel } from "../../../../products/components/product-carousel/product-carousel";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -19,7 +19,17 @@ export class ProductDetails implements OnInit {
 	fb = inject(FormBuilder);
 	router = inject(Router);
 	productService = inject(ProductService);
+
 	sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+	imageFileList: FileList | null = null;
+	tempImages = signal<string[]>([]);
+	imagesToCarousel = computed(() => {
+		// Combinamos las imágenes del producto con las imágenes temporales para mostrar en el carrusel, 
+		// esto nos permite mostrar un preview de las imágenes seleccionadas antes de subirlas al servidor
+		const currentProductImages = [...this.product().images, ...this.tempImages()];
+		return currentProductImages;
+	});
 
 	productForm: FormGroup = this.fb.group({
 		title: ['', Validators.required],
@@ -52,6 +62,18 @@ export class ProductDetails implements OnInit {
 		} else {
 			// Si el tamaño no está seleccionado, lo añadimos al array
 			this.productForm.get('sizes')?.setValue([...currentSizes, size]);
+		}
+	}
+
+	onFilesChanged(event: Event) {
+		const fileListUploaded = (event.target as HTMLInputElement).files;
+		this.imageFileList = fileListUploaded;
+
+		if (fileListUploaded) {
+			const files = Array.from(fileListUploaded);
+			// Aquí podrías implementar la lógica para subir las imágenes al servidor y obtener las URLs, por ahora solo vamos a mostrar las imágenes seleccionadas como preview
+			const tempUrls = files.map(file => URL.createObjectURL(file));
+			this.tempImages.set(tempUrls);
 		}
 	}
 
