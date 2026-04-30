@@ -22,7 +22,7 @@ export class ProductDetails implements OnInit {
 
 	sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
-	imageFileList: FileList | null = null;
+	imageFileList: FileList | undefined = undefined;
 	tempImages = signal<string[]>([]);
 	imagesToCarousel = computed(() => {
 		// Combinamos las imágenes del producto con las imágenes temporales para mostrar en el carrusel, 
@@ -67,11 +67,10 @@ export class ProductDetails implements OnInit {
 
 	onFilesChanged(event: Event) {
 		const fileListUploaded = (event.target as HTMLInputElement).files;
-		this.imageFileList = fileListUploaded;
 
 		if (fileListUploaded) {
+			this.imageFileList = fileListUploaded;
 			const files = Array.from(fileListUploaded);
-			// Aquí podrías implementar la lógica para subir las imágenes al servidor y obtener las URLs, por ahora solo vamos a mostrar las imágenes seleccionadas como preview
 			const tempUrls = files.map(file => URL.createObjectURL(file));
 			this.tempImages.set(tempUrls);
 		}
@@ -94,7 +93,7 @@ export class ProductDetails implements OnInit {
 		};
 
 		if (this.product().id == 'new') {
-			this.productService.createProduct(productLike).subscribe({
+			this.productService.createProduct(productLike, this.imageFileList).subscribe({
 				next: (resp) => {
 					Swal.fire({
 						title: 'Éxito',
@@ -115,7 +114,7 @@ export class ProductDetails implements OnInit {
 				}
 			});
 		} else {
-			this.productService.updateProduct(this.product().id, productLike).subscribe({
+			this.productService.updateProduct(this.product().id, productLike, this.imageFileList).subscribe({
 				next: (resp) => {
 					Swal.fire({
 						title: 'Éxito',
