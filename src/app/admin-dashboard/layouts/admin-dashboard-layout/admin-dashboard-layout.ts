@@ -1,10 +1,11 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
+import { Footer } from "../../../shared/components/footer/footer";
 
 @Component({
 	selector: 'app-admin-dashboard-layout',
-	imports: [RouterOutlet, RouterLink, RouterLinkActive],
+	imports: [RouterOutlet, RouterLink, RouterLinkActive, Footer],
 	templateUrl: './admin-dashboard-layout.html',
 	styleUrl: './admin-dashboard-layout.css'
 })
