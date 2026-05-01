@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 
@@ -12,4 +12,14 @@ export class AdminDashboardLayout {
 	authService = inject(AuthService);
 
 	user = computed(() => this.authService.user());
+	isSidebarOpen = signal(false);
+
+	toggleSidebar() {
+		// Cambia el estado de isSidebarOpen al valor opuesto (true a false o viceversa)
+		this.isSidebarOpen.update(prev => !prev);
+	}
+
+	closeSidebar() {
+		this.isSidebarOpen.set(false);
+	}
 }

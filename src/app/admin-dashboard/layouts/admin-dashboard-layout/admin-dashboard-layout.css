@@ -1,3 +1,21 @@
 :host {
   display: block;
 }
+
+/* Responsive sidebar animations */
+@media (max-width: 768px) {
+  #menu {
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Smooth transitions for sidebar */
+#menu {
+  transform-origin: left;
+}
+
+@supports (backdrop-filter: blur(4px)) {
+  .md\:hidden[class*="overflow"] {
+    backdrop-filter: blur(4px);
+  }
+}
