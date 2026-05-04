@@ -1,20 +1,69 @@
 @if (productResource.isLoading()) {
-<div class="flex justify-center items-center h-screen">
+<div class="flex min-h-screen items-center justify-center bg-base-200 px-4 py-10">
     <span class="loading loading-spinner loading-lg"></span>
 </div>
 }
 
 @if (productResource.hasValue()) {
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-    <app-product-carousel [images]="productResource.value().images"></app-product-carousel>
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div class="grid gap-6 lg:grid-cols-[1.45fr_0.9fr]">
+        <div class="overflow-hidden rounded-[32px] border border-slate-200/10 bg-slate-950/80 shadow-xl shadow-slate-950/20">
+            <app-product-carousel [images]="productResource.value().images"></app-product-carousel>
+        </div>
 
-    <div>
-        <h2 class="text-2xl font-bold font-montserrat">
-            {{ productResource.value().title }}
-        </h2>
-        <div class="divider"></div>
+        <div class="space-y-6">
+            <div class="rounded-[32px] border border-slate-700/80 bg-slate-900/90 p-6 shadow-lg shadow-slate-950/20 backdrop-blur-sm sm:p-8">
+                <div class="flex flex-col gap-4">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span class="badge badge-secondary">Producto</span>
+                        <span class="badge badge-outline">{{ productResource.value().gender }}</span>
+                    </div>
 
-        <p>{{ productResource.value().description }}</p>
+                    <div class="space-y-2">
+                        <h1 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl font-montserrat">
+                            {{ productResource.value().title }}
+                        </h1>
+                        <p class="text-2xl font-bold text-accent">{{ productResource.value().price | currency }}</p>
+                    </div>
+
+                    <div class="divider border-slate-700"></div>
+
+                    <p class="text-sm leading-7 text-slate-300 sm:text-base">
+                        {{ productResource.value().description }}
+                    </p>
+
+                    <div class="grid gap-3 sm:grid-cols-2">
+                        <div class="rounded-3xl bg-slate-800/80 p-4">
+                            <p class="text-xs uppercase tracking-[0.28em] text-slate-500">Stock disponible</p>
+                            <p class="mt-2 text-xl font-semibold text-white">{{ productResource.value().stock }}</p>
+                        </div>
+                        <div class="rounded-3xl bg-slate-800/80 p-4">
+                            <p class="text-xs uppercase tracking-[0.28em] text-slate-500">Tallas</p>
+                            <p class="mt-2 text-xl font-semibold text-white">{{ productResource.value().sizes.join(', ') }}</p>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-3 sm:grid-cols-2">
+                        <button class="btn btn-primary btn-lg w-full">Comprar ahora</button>
+                        <button class="btn btn-outline btn-secondary w-full">Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-[32px] border border-slate-700/80 bg-slate-950/70 p-6 shadow-lg shadow-slate-950/10 sm:p-8">
+                <h2 class="mb-4 text-lg font-semibold text-white">Detalles rápidos</h2>
+                <div class="grid gap-4 text-sm sm:grid-cols-2">
+                    <div class="rounded-3xl bg-slate-900/80 p-4">
+                        <p class="text-slate-500">Slug</p>
+                        <p class="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-white">{{ productResource.value().slug }}</p>
+                    </div>
+                    <div class="rounded-3xl bg-slate-900/80 p-4">
+                        <p class="text-slate-500">Etiquetas</p>
+                        <p class="mt-1 text-white">{{ productResource.value().tags.join(', ') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 }
